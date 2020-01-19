@@ -24,7 +24,10 @@
                 }
 
                 var div = document.createElement("div");
+
                 div.setAttribute("Class", "list-group");
+
+                div.setAttribute("Style", "width:95%; margin-left:2.5%");
 
                 var i = 0;
                 tweets_.forEach(element => {
@@ -64,7 +67,7 @@
                             var users = JSON.parse(xhr.responseText);
                             if (xhr.readyState == 4 && xhr.status == "200") {
                                 location.reload();
-                                
+
                             } else {
                                 console.error(users);
                             }
