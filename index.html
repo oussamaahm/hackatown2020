@@ -66,7 +66,7 @@
                         xhr.onload = function () {
                             var users = JSON.parse(xhr.responseText);
                             if (xhr.readyState == 4 && xhr.status == "200") {
-                                location.reload();
+                                a.setAttribute("style", "background-color: yellow");
 
                             } else {
                                 console.error(users);
