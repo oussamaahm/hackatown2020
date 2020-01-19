@@ -5,11 +5,16 @@
     </head>
     <body style="background-color: #2B303A; align-content: center;">
         <center> 
-            <p class="h1" style="color: aliceblue; margin: 1%;">Helpline Bot</p>
+            <p class="h1" style="color: aliceblue; margin: 1.5%;">Helpline Bot</p>
             <div id="template"></div>
         </center>
         
         <script>
+            var div = document.createElement("div");
+
+            div.setAttribute("Class", "list-group");
+
+            div.setAttribute("Style", "width:95%; margin-left:2.5%; margin-bottom: 2.5%");
             var tweets_ = [];
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function() { 
@@ -22,12 +27,6 @@
                         }
                     });
                 }
-
-                var div = document.createElement("div");
-
-                div.setAttribute("Class", "list-group");
-
-                div.setAttribute("Style", "width:95%; margin-left:2.5%; margin-bottom: 2.5%");
 
                 var i = 0;
                 tweets_.forEach(element => {
