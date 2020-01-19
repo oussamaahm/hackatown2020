@@ -1,0 +1,102 @@
+<html>
+    <head> 
+        <title>Helpline bot</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <body style="background-color: #2B303A; align-content: center;">
+        <center> 
+            <p class="h1" style="color: aliceblue; margin: 1%;">Helpline Bot</p>
+            <div id="template"></div>
+        </center>
+        
+        <script>
+            var tweets_ = [];
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() { 
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+                    JSON.parse(xmlHttp.responseText).forEach(element => {
+                        if(element.tweets.length >= 1) {
+                            element.tweets.forEach(element_tweet => {
+                                tweets_.push([element.id, element_tweet.text, element_tweet.id]);
+                            });
+                        }
+                    });
+                }
+
+                var div = document.createElement("div");
+                div.setAttribute("Class", "list-group");
+
+                var i = 0;
+                tweets_.forEach(element => {
+
+                    var div1 = document.createElement("div");
+                    div1.setAttribute("Class", "d-flex w-100 justify-content-between");
+
+                    var small = document.createElement("small");
+
+                    var image1 = document.createElement("IMG");
+                    var image2 = document.createElement("IMG");
+
+                    image1.setAttribute("id", i);
+                    image2.setAttribute("id", i);
+                    image1.setAttribute("src", "./alert.png");
+                    image2.setAttribute("src", "./shield.png");
+
+                    image2.onclick = function(){
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("DELETE", "https://hackatown2020-db-api.herokuapp.com/" + tweets_[image1.id][0], true);
+                        console.log(tweets_[image1.id][0]);
+                        xhr.onload = function () {
+                            var users = JSON.parse(xhr.responseText);
+                            if (xhr.readyState == 4 && xhr.status == "200") {
+                                location.reload();
+                            } else {
+                                console.error(users);
+                            }
+                        }
+                        xhr.send(null);
+                    };
+
+                    image1.onclick = function(){
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "https://hackatown2020-db-api.herokuapp.com/" + tweets_[image1.id][0] + "/" + tweets_[image1.id][2], true);
+                        xhr.onload = function () {
+                            var users = JSON.parse(xhr.responseText);
+                            if (xhr.readyState == 4 && xhr.status == "200") {
+                                location.reload();
+                                
+                            } else {
+                                console.error(users);
+                            }
+                        }
+                        xhr.send(null);
+                    };
+
+                    small.appendChild(image1);
+                    small.appendChild(image2);
+
+                    var p = document.createElement("p");
+                    p.setAttribute("Class", "mb-1");
+                    p.textContent = element[1];
+
+                    var h = document.createElement("h5");
+                    h.setAttribute("Class", "mb-1");
+
+                    h.textContent = element[0];
+
+                    var a = document.createElement("a");
+                    a.setAttribute("Class", "list-group-item list-group-item-action flex-column align-items-start");
+                    div1.appendChild(h);
+                    div1.appendChild(small);
+                    a.appendChild(div1);
+                    a.appendChild(p);
+                    div.appendChild(a); 
+                    i++;
+                });
+                document.body.appendChild(div);
+            }
+            xmlHttp.open("GET", "https://hackatown2020-db-api.herokuapp.com/?fbclid=IwAR3qcNhoL6F1DSFBrJXgP9Vk9PKtdfjTgmJS9KYIeXP3yIIiwL2uZvrdi5w", true); // true for asynchronous 
+            xmlHttp.send(null);
+        </script>
+    </body>
+</html>
